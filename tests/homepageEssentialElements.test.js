@@ -1,29 +1,36 @@
-// tests/multiSiteHomepageElements.test.js
-import { test, expect } from '@playwright/test';
-import { HomePage } from '../pages/HomePage';
-import { CookiesBotDialogPage } from '../pages/CookiesBotDialogPage';
+import { test, expect,chromium } from "@playwright/test";
+import { HomePage } from "../pages/HomePage";
+import { BaseTestHelper } from "../utils/BaseTestHelper";
 
-test.describe('Multi-Site Homepage Essential Elements Check', () => {
-  // URLs for each site’s homepage
-  const siteUrls = [
-    'https://www.ab-in-den-urlaub.de/',
-    'https://www.ab-in-den-urlaub.at/',
-    'https://www.ab-in-den-urlaub.ch/',
-  ];
+test.describe("Homepage Elements Verification", () => {
+  let homePage;
+  let baseTestHelper;
+  let browserContext;
 
-  siteUrls.forEach((url) => {
-    test(`Verify essential elements on homepage: ${url}`, async ({ page }) => {
-      const homePage = new HomePage(page);
-      const cookiesDialog = new CookiesBotDialogPage(page);
+  test.beforeAll(async () => {
+     // Launch the browser and create a new context
+     const browser = await chromium.launch();
+     browserContext = await browser.newContext();
+     
+     // Initialize page and helper classes
+     const page = await browserContext.newPage();
+    homePage = new HomePage(page);
+    baseTestHelper = new BaseTestHelper(page);
 
-      // Navigate to each site’s homepage
-      await homePage.navigateTo(url);
+    console.log("Navigating to the website and handling cookie consent...");
+    await baseTestHelper.navigateToSite();
+    await baseTestHelper.handleCookieConsent();
+    console.log("Successfully navigated and cookie consent handled.");
+  });
 
-      // Handle cookie consent (decline or allow)
-      await cookiesDialog.decline();
+  test.afterAll(async () => {
+    console.log("Cleaning up after tests...");
+    // Any necessary cleanup can be performed here.
+  });
 
-      // Verify the presence of essential elements
-      await homePage.verifyHomePageElements();
-    });
+  test("Verify essential elements on homepage", async () => {
+    console.log("Starting verification of essential elements on the homepage...");
+    await homePage.verifyHomePageElements();
+    console.log("Essential elements verification completed successfully.");
   });
 });

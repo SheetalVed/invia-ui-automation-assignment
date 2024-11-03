@@ -1,0 +1,9 @@
+{
+    "urls": {
+      "DE": "https://www.ab-in-den-urlaub.de",
+      "AT": "https://www.ab-in-den-urlaub.at",
+      "CH": "https://www.ab-in-den-urlaub.ch"
+    },
+    "browsers": ["chromium", "firefox", "webkit"]
+  }
+  
