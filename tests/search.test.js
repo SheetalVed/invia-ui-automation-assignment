@@ -1,29 +1,29 @@
-// tests/homePage.test.js
-import { test, expect } from '@playwright/test';
-import { HomePage } from '../pages/HomePage';
-import {CookiesBotDialogPage} from '../pages/CookiesBotDialogPage'
+import { test, expect } from "@playwright/test";
+import { HomePage } from "../pages/HomePage";
+import { CookiesBotDialogPage } from "../pages/CookiesBotDialogPage";
+import { loadSearchData, getUrlByCountry } from "../utils/dataUtils";
 
-test('test', async ({ page }) => {
+test("test", async ({ page }) => {
   const homePage = new HomePage(page);
   const cookiesBotDialogPage = new CookiesBotDialogPage(page);
 
-  // Navigate to the homepage
-  await homePage.navigateTo('https://www.ab-in-den-urlaub.de/');
+  // Choose the country code, e.g., 'DE', 'AT', or 'CH'
+  const countryCode = 'AT';
+  const url = getUrlByCountry(countryCode);
+
+  // Load test data from searchData.json
+  const { destination, travelPeriodFrom, travelPeriodTo } = loadSearchData();
+
+  // Navigate to the appropriate homepage based on the URL
+  await homePage.navigateTo(url);
 
   // Handle cookie consent
   await cookiesBotDialogPage.decline();
 
-  // Select a destination
-  await homePage.selectDestination('kreta');
+  // Use the loaded data for your test steps
+  await homePage.selectDestination(destination);
+  await homePage.selectTravelPeriod(travelPeriodFrom, travelPeriodTo);
 
-  //await homePage.enterDate();
-
-  // Select the travel period
-  await homePage.selectTravelPeriod('02.11.2024', '15.11.2024');
-
-  // Optionally, you can submit the form
   await homePage.submit();
-  
-  // Optionally, pause for debugging
-  await page.pause();
+  await homePage.clickFirstNewResultAfterLoadMore();
 });
