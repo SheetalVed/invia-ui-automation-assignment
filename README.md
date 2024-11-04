@@ -1,4 +1,4 @@
-# Automation QA Engineer Assignment
+# Invia UI Automation Assignment
 
 This project is designed to ensure the quality and functionality of the **ab-in-denurlaub.de** website through automated testing, enabling efficient verification of its features across different regional domains, including **ab-in-den-urlaub.at** and **ab-in-denurlaub.ch**. The test suite uses Playwright to automate the verification of key functionalities of the website.
 
@@ -37,12 +37,18 @@ Ensure you have the following installed:
 
 Follow these steps to set up and run the project locally:
 
-1. **Install Dependencies**
+1. **Clone the repository:**
+```bash
+git clone https://github.com/SheetalVed/invia-ui-automation-assignment.git
+cd InviaGroup_UI_Automation
+```
+
+2. **Install Dependencies**
 ```bash
 npm install
 ```
 
-2. **Install Playwright Browsers**
+3. **Install Playwright Browsers**
 ```bash
 npx playwright install
 ```
