@@ -1,6 +1,10 @@
 import { expect, Page } from "@playwright/test";
 import { DateUtils } from "../utils/dateUtils.js";
 
+/**
+ * Class representing the homepage of the application.
+ * Provides methods to interact with and verify elements on the homepage.
+ */
 export class HomePage {
   constructor(page) {
     this.page = page;
@@ -20,16 +24,26 @@ export class HomePage {
     this.takeOverButton = page.locator(".e9uklbu0");
   }
 
+  /**
+   * Navigate to a specified URL.
+   * @param {string} url - The URL to navigate to.
+   * @throws Will throw an error if navigation fails.
+   */
   async navigateTo(url) {
     try {
       console.log(`Navigating to URL: ${url}`);
       await this.page.goto(url);
+      console.log(`Successfully navigated to ${url}`);
     } catch (error) {
       console.error(`Failed to navigate to ${url}: ${error.message}`);
       throw error; // Fail the test if navigation fails
     }
   }
 
+  /**
+   * Verify essential elements on the homepage are visible.
+   * Throws an error if any element is not visible.
+   */
   async verifyHomePageElements() {
     console.log('Verifying homepage elements...');
     await expect(this.destinationSelector).toBeVisible();
@@ -41,6 +55,11 @@ export class HomePage {
     console.log('All essential homepage elements are visible.');
   }
 
+  /**
+   * Select a destination from the destination input field.
+   * @param {string} destination - The destination to select.
+   * @throws Will throw an error if selection fails.
+   */
   async selectDestination(destination) {
     try {
       console.log(`Selecting destination: ${destination}`);
@@ -59,39 +78,64 @@ export class HomePage {
           await options.nth(i).hover();
           await options.nth(i).click({ force: true });
           console.log(`Successfully clicked on destination: ${destination}`);
-          break; // Exit loop after clicking the matching option
+          return; // Exit after successful selection
         }
       }
+      console.warn(`Destination ${destination} not found in the options.`);
     } catch (error) {
       console.error(`Error selecting destination: ${error.message}`);
       throw error; // Fail the test if selection fails
     }
   }
 
+  /**
+   * Enter a predefined travel date range in the date selector.
+   * @throws Will throw an error if entering the date fails.
+   */
   async enterDate() {
     const travelPeriod = "01.11.2024 - 10.11.2024";
     console.log(`Entering travel period: ${travelPeriod}`);
     await this.dateSelector.click();
     await this.dateSelector.fill(travelPeriod);
+    console.log(`Travel period entered: ${travelPeriod}`);
   }
 
+  /**
+   * Select a travel period given start and end dates.
+   * @param {string} startDate - The start date of the travel period.
+   * @param {string} endDate - The end date of the travel period.
+   */
   async selectTravelPeriod(startDate, endDate) {
     console.log(`Selecting travel period from ${startDate} to ${endDate}`);
     await this.dateSelector.click();
     await this.selectTravelDateRange(startDate, endDate);
   }
 
+  /**
+   * Select a specific date range using utility function.
+   * @param {string} startDate - The start date to select.
+   * @param {string} endDate - The end date to select.
+   */
   async selectTravelDateRange(startDate, endDate) {
     console.log(`Selecting date range: ${startDate} - ${endDate}`);
     await DateUtils.selectDateRange(this.page, startDate, endDate);
+    console.log(`Date range selected: ${startDate} - ${endDate}`);
   }
 
+  /**
+   * Submit the form on the homepage.
+   * @throws Will throw an error if submission fails.
+   */
   async submit() {
     console.log('Submitting the form...');
     await this.submitButton.click();
     console.log('Form submitted.');
   }
 
+  /**
+   * Click the forward arrow and takeover button.
+   * @throws Will throw an error if clicking fails.
+   */
   async clickForwardArrow() {
     console.log('Clicking forward arrow...');
     await this.iconArrowForward.click();
@@ -99,18 +143,31 @@ export class HomePage {
     console.log('Forward arrow and takeover button clicked.');
   }
 
+  /**
+   * Click the "Load More" button to load additional search results.
+   * @throws Will throw an error if clicking fails.
+   */
   async clickLoadMore() {
     console.log('Clicking "Load More" button...');
     await this.page.locator(this.loadMoreButtonSelector).click();
     console.log('"Load More" button clicked.');
   }
 
+  /**
+   * Click on a hotel from the search results based on the given index.
+   * @param {number} index - The index of the hotel to find and click.
+   * @throws Will throw an error if clicking fails.
+   */
   async findHotel(index = 26) {
     console.log(`Finding hotel at index ${index}...`);
     await this.page.locator(this.searchResultsSelector).nth(index).click();
     console.log(`Hotel at index ${index} clicked.`);
   }
 
+  /**
+   * Click the first new result after loading more hotels.
+   * @throws Will throw an error if clicking fails.
+   */
   async clickFirstNewResultAfterLoadMore() {
     try {
       console.log(`Using selector: ${this.searchResultsSelector}`);
@@ -131,7 +188,7 @@ export class HomePage {
       }
     } catch (error) {
       console.error("Error fetching results:", error);
-      throw error; // Fail the test if fetching fails
+      throw error;
     }
   }
 }

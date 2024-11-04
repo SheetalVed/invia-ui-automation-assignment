@@ -1,4 +1,3 @@
-// pages/LoginPage.js
 import { expect } from "@playwright/test";
 
 export class LoginPage {
@@ -72,6 +71,13 @@ export class LoginPage {
    */
   async verifyLoginNotificationMessage(notificationMessage) {
     console.log("Verifying login notification message...");
+
+    // Wait for the notification elements to appear
+    await this.page.waitForSelector(
+      'div[data-testid="shared-authentication-migrateAccount-widget"] > div > div > div > div'
+    );
+
+    // Get all matching elements
     const elements = this.page.locator(
       'div[data-testid="shared-authentication-migrateAccount-widget"] > div > div > div > div'
     );
@@ -79,19 +85,20 @@ export class LoginPage {
 
     console.log("Retrieved notification messages:", texts);
 
-    if (texts.length > 2) {
-      const index2Text = texts[1]; // Access the text at index 2
-      if (index2Text === notificationMessage) {
+    // Check if the array has at least 2 items (since indexing starts at 0)
+    if (texts.length > 1) {
+      const index1Text = texts[1]; // Access the text at index 1
+      if (index1Text === notificationMessage) {
         console.log(
-          `Verification successful: '${index2Text}' matches the baseline.`
+          `Verification successful: '${index1Text}' matches the baseline.`
         );
       } else {
         console.error(
-          `Verification failed: '${index2Text}' does not match the baseline.`
+          `Verification failed: '${index1Text}' does not match the baseline '${notificationMessage}'.`
         );
       }
     } else {
-      console.error("Not enough elements found. Expected at least 3.");
+      console.error("Not enough elements found. Expected at least 2.");
     }
   }
 

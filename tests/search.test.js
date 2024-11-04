@@ -1,29 +1,55 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, chromium } from "@playwright/test";
 import { HomePage } from "../pages/HomePage";
-import { CookiesBotDialogPage } from "../pages/CookiesBotDialogPage";
-import { loadSearchData, getUrlByCountry } from "../utils/dataUtils";
+import { BaseTestHelper } from "../utils/BaseTestHelper";
+import { loadSearchData } from "../utils/dataUtils";
 
-test("test", async ({ page }) => {
-  const homePage = new HomePage(page);
-  const cookiesBotDialogPage = new CookiesBotDialogPage(page);
+test.describe("Search Functionality Tests", () => {
+  let homePage;
+  let baseTestHelper;
+  let browserContext;
 
-  // Choose the country code, e.g., 'DE', 'AT', or 'CH'
-  const countryCode = 'AT';
-  const url = getUrlByCountry(countryCode);
+  test.beforeAll(async () => {
+    // Launch the browser and create a new context
+    const browser = await chromium.launch();
+    browserContext = await browser.newContext();
+    
+    // Initialize page and helper classes
+    const page = await browserContext.newPage();
+    homePage = new HomePage(page);
+    baseTestHelper = new BaseTestHelper(page);
 
-  // Load test data from searchData.json
-  const { destination, travelPeriodFrom, travelPeriodTo } = loadSearchData();
+    console.log("Navigating to the website and handling cookie consent...");
+    await baseTestHelper.navigateToSite();
+    await baseTestHelper.handleCookieConsent();
+    const title = await page.title();
+    console.log("Page title:", title);
+    expect(title).toBe(
+      "Urlaub mit bis zu 60% Rabatt sichern ▷ ab in den urlaub!"
+    );
+    console.log(
+      "Successfully navigated to the site and handled cookie consent."
+    );
+  });
 
-  // Navigate to the appropriate homepage based on the URL
-  await homePage.navigateTo(url);
+  test.afterAll(async () => {
+    // This should be inside the describe block to have access to browserContext
+    await browserContext.close(); // Close the browser context
+    console.log('Browser context closed.');
+  });
 
-  // Handle cookie consent
-  await cookiesBotDialogPage.decline();
+  test("Search test with destination and date selection", async () => {
+    // Load test data from searchData.json
+    const { destination, travelPeriodFrom, travelPeriodTo } = loadSearchData();
 
-  // Use the loaded data for your test steps
-  await homePage.selectDestination(destination);
-  await homePage.selectTravelPeriod(travelPeriodFrom, travelPeriodTo);
+    console.log(`Searching for destination: ${destination} with travel period from ${travelPeriodFrom} to ${travelPeriodTo}`);
+    
+    // Use the loaded data for your test steps
+    await homePage.selectDestination(destination);
+    await homePage.selectTravelPeriod(travelPeriodFrom, travelPeriodTo);
+    
+    await homePage.submit();
+    await homePage.clickFirstNewResultAfterLoadMore();
 
-  await homePage.submit();
-  await homePage.clickFirstNewResultAfterLoadMore();
+    console.log("Search test completed successfully.");
+  });
 });
