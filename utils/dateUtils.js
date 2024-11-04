@@ -49,7 +49,8 @@ export class DateUtils {
           currentIndex -= 1; // Move index to left
         } else {
           // Navigate right if target is later
-          await page.getByTestId('IconChevronRight').click();
+          await page.pause()
+          await page.locator("div:nth-child(2) > .e1o0070i0>svg[data-testid='IconChevronRight']").click();
           currentIndex += 1; // Move index to right
         }
 

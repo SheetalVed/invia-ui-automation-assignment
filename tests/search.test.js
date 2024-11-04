@@ -20,7 +20,7 @@ test.describe("Search Functionality Tests", () => {
 
     console.log("Navigating to the website and handling cookie consent...");
     await baseTestHelper.navigateToSite();
-    await baseTestHelper.handleCookieConsent();
+    await baseTestHelper.handleCookieConsent('decline');
     const title = await page.title();
     console.log("Page title:", title);
     expect(title).toBe(

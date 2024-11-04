@@ -55,7 +55,7 @@ export class BaseTestHelper {
       }
     } catch (error) {
       console.error("Error handling cookie consent:", error.message);
-      throw error; // Rethrow to handle in calling test if needed
+      throw error;
     }
   }
 }

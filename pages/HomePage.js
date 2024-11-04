@@ -179,7 +179,7 @@ export class HomePage {
       if (isLoadMoreVisible) {
         console.log('"Load More" button is visible, clicking it...');
         await this.page.locator(this.loadMoreButtonSelector).click();
-        await this.page.waitForTimeout(1000); // Adjust based on loading time
+        await this.page.waitForTimeout(1000);
 
         await this.page.locator(this.searchResultsSelector).nth(initialResultsCount).click();
         console.log('Clicked on the first new result after loading more hotels.');

@@ -3,12 +3,21 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+"test:de": "set COUNTRY_CODE=DE && npx playwright test tests --project=chromium --headed",
+    "test:at": "set COUNTRY_CODE=AT && npx playwright test tests --project=chromium --headed",
+    "test:ch": "set COUNTRY_CODE=CH && npx playwright test tests --project=chromium --headed",
+    "test": "npx playwright test"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.48.2",
-    "@types/node": "^22.8.4"
+    "@types/node": "^22.8.4",
+    "cross-env": "^7.0.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
   }
 }
