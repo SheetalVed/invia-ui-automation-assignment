@@ -120,22 +120,6 @@ export class HomePage {
   }
 
   /**
-   * Enter a predefined travel date range in the date selector.
-   */
-  async enterDate(): Promise<void> {
-    const travelPeriod = "01.11.2024 - 10.11.2024"; // This could be made dynamic in future implementations
-    try {
-      console.log(`Entering travel period: ${travelPeriod}`);
-      await this.dateSelector.click();
-      await this.dateSelector.fill(travelPeriod);
-      console.log(`Travel period entered: ${travelPeriod}`);
-    } catch (error) {
-      console.error("Error entering travel date:", error);
-      throw error;
-    }
-  }
-
-  /**
    * Select a travel period given start and end dates.
    * @param startDate - The start date of the travel period.
    * @param endDate - The end date of the travel period.

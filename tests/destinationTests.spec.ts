@@ -28,7 +28,7 @@ test.describe("Search Functionality and Offer Verification Tests", () => {
       console.log("Successfully navigated to the site and handled cookie consent.");
     } catch (error) {
       console.error("Error during setup in beforeAll:", error);
-      throw error; // Re-throw to fail the test suite if there's an issue
+      throw error; 
     }
   });
 
@@ -59,7 +59,7 @@ test.describe("Search Functionality and Offer Verification Tests", () => {
         offerPage = new OfferPage(newTab);
   
         const isVisible = await offerPage.isOffersHeadlineVisible();
-        expect(isVisible).toBe(true); // Assert that the offers headline is visible
+        expect(isVisible).toBe(true); 
 
         const [bookingTab] = await Promise.all([
           browserContext.waitForEvent('page', { timeout: 10000 }),
@@ -78,7 +78,7 @@ test.describe("Search Functionality and Offer Verification Tests", () => {
       }
     } catch (error) {
       console.error("Error during search test execution:", error);
-      throw error; // Re-throw to fail the test case
+      throw error;
     }
   });
 });

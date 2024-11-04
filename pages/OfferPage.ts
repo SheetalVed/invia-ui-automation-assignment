@@ -29,10 +29,10 @@ export class OfferPage {
     try {
       await this.offersHeadline.waitFor({ state: 'visible', timeout: 5000 });
       console.log("Offers headline is visible.");
-      return true; // Return true if the element is visible within the timeout
+      return true; 
     } catch (error) {
       console.error("Offers headline is not visible within the timeout:", error);
-      return false; // Return false if the element does not become visible in time
+      return false; 
     }
   }
 
@@ -68,17 +68,17 @@ export class OfferPage {
   async getBookingDetailText(): Promise<string> {
     try {
       const bookingText = this.bookingDetails.first();
-      await bookingText.waitFor({ state: 'visible', timeout: 5000 }); // Wait for the booking detail to be visible
+      await bookingText.waitFor({ state: 'visible', timeout: 5000 }); 
 
       if (await bookingText.isVisible()) {
         const text = await bookingText.textContent();
-        return text ? text : ""; // Return the text content, or an empty string if null
+        return text ? text : ""; 
       } else {
         throw new Error("The first booking detail element is not visible.");
       }
     } catch (error) {
       console.error("Error retrieving booking detail text:", error);
-      throw error; // Re-throw error for further handling if needed
+      throw error;
     }
   }
 }
