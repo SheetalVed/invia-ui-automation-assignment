@@ -18,6 +18,17 @@ export function loadSearchData() {
   }
 }
 
+export function loadLoginData() {
+  try {
+    const filePath = path.join(__dirname, '../fixtures/loginData.json');
+    const data = fs.readFileSync(filePath, 'utf8');
+    return JSON.parse(data);
+  } catch (error) {
+    console.error(`Error loading search data: ${error.message}`);
+    throw error;
+  }
+}
+
 // Function to get URL based on environment
 export function getUrlByCountry(countryCode) {
   switch (countryCode) {
