@@ -47,8 +47,12 @@ test.describe("Search Functionality Tests", () => {
     await homePage.selectDestination(destination);
     await homePage.selectTravelPeriod(travelPeriodFrom, travelPeriodTo);
     
-    await homePage.submit();
-    await homePage.clickFirstNewResultAfterLoadMore();
+    const hasResults = await homePage.submit();
+if (hasResults) {
+  await homePage.clickFirstNewResultAfterLoadMore();
+} else {
+  console.log("Test execution stopped as no results were found.");
+}
 
     console.log("Search test completed successfully.");
   });

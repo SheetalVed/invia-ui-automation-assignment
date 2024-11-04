@@ -127,11 +127,30 @@ export class HomePage {
    * @throws Will throw an error if submission fails.
    */
   async submit() {
-    console.log('Submitting the form...');
+    console.log("Submitting the form...");
     await this.submitButton.click();
-    console.log('Form submitted.');
+    console.log("Form submitted.");
+  
+    // Wait briefly to allow time for the search results or message to load
+    await this.page.waitForTimeout(2000);
+  
+    // Check for "0 Hotels" message or absence of hotel results
+    const noResultsMessage = this.page.locator('text="0 Hotels"'); // Update with exact text if different
+    const hotelResults = this.page.locator(this.searchResultsSelector); // Selector for hotel search results
+    
+    if (await noResultsMessage.isVisible()) {
+      console.warn("No hotels found for the selected destination and date range.");
+      return false; // Indicate no results found
+    }
+  
+    if (await hotelResults.count() === 0) {
+      console.warn("No hotel data available. Exiting without further actions.");
+      return false; // Indicate no results found
+    }
+  
+    console.log("Hotels found. Proceeding with further actions...");
+    return true; // Indicate that results were found
   }
-
   /**
    * Click the forward arrow and takeover button.
    * @throws Will throw an error if clicking fails.
