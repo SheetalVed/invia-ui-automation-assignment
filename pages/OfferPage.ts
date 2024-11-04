@@ -1,4 +1,4 @@
-import { Page, Locator } from "@playwright/test"; // Ensure Locator is imported
+import { Page, Locator } from "@playwright/test";
 
 /**
  * Class representing the offers page of the application.
@@ -6,9 +6,9 @@ import { Page, Locator } from "@playwright/test"; // Ensure Locator is imported
  */
 export class OfferPage {
   private page: Page;
-  private offersHeadline: Locator; // Correctly typed as Locator
-  private bookOffer: Locator; // Correctly typed as Locator
-  private bookingDetails: Locator; // Correctly typed as Locator
+  private offersHeadline: Locator; 
+  private bookOffer: Locator;
+  private bookingDetails: Locator;
 
   /**
    * Initializes the OfferPage with required selectors.

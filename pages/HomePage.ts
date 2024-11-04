@@ -17,8 +17,6 @@ export class HomePage {
   private loadMoreButtonSelector: string;
   private searchResultsSelector: string;
   private findOfferButton: Locator;
-  private iconArrowForward: Locator;
-  private takeOverButton: Locator;
 
   /**
    * Initializes the HomePage with the necessary page locators.
@@ -36,8 +34,6 @@ export class HomePage {
     this.loadMoreButtonSelector = 'button[data-testid="find-hotellist-loadMoreButton"]';
     this.searchResultsSelector = 'a[data-testid="find-hotellist-hotelbox-cta"]';
     this.findOfferButton = page.getByTestId("find-offerlist-offerbox-cta");
-    this.iconArrowForward = page.getByTestId("IconArrowForward");
-    this.takeOverButton = page.locator(".e9uklbu0");
   }
 
   /**
@@ -201,21 +197,6 @@ export class HomePage {
       return true;
     } catch (error) {
       console.error("Error during form submission:", error);
-      throw error;
-    }
-  }
-
-  /**
-   * Click the forward arrow and takeover button.
-   */
-  async clickForwardArrow(): Promise<void> {
-    try {
-      console.log("Clicking forward arrow...");
-      await this.iconArrowForward.click();
-      await this.takeOverButton.click();
-      console.log("Forward arrow and takeover button clicked.");
-    } catch (error) {
-      console.error("Error clicking forward arrow or takeover button:", error);
       throw error;
     }
   }

@@ -23,13 +23,13 @@ test.describe("Homepage Elements Verification", () => {
       console.log("Successfully navigated to the homepage and handled cookie consent.");
     } catch (error) {
       console.error("Error during setup in beforeAll:", error);
-      throw error; // Rethrow to fail the test suite if there's an issue
+      throw error;
     }
   });
 
   test.afterAll(async () => {
     try {
-      await browserContext.close(); // Ensure the browser context is closed
+      await browserContext.close();
       console.log("Browser context closed.");
     } catch (error) {
       console.error("Error closing browser context:", error);
